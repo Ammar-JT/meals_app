@@ -1,33 +1,10 @@
-// Lesson 1: Make ur first screen + Change the startign screen + Make the widget a screen + Navigation and Routing!
+// Lesson 2: Passing data between screens!
 
-// Make ur first screen + set up the project:
-//    - just make a new widget called categories_screen
-//    - put a GridView inside it
-//    - make a class called category in model folder (to make every category an object)
-//    - make category_item widget (which will be under the categories_screen)
-//    - put the dummy_data.dart in the lib 
-//    - In categroies_screen: import dummy + category_item and use them!
+// Passing data between screens:
+//    - just use constructors as always!
+//    - we passed the id and title between categories_screen + category_item + categories_meals_screen
 
 
-// Change the startign screen:
-//    - in MaterialApp(home: هنا) <<<< put the starting screen widget
-
-
-// Make the widget a screen
-//    - Screen / widget / page === all the same
-//    - Typically the Scaffold represent a screen, so you'll use it in every screen
-//    - Put the Scaffold in categories_screen, and put the gridView inside it
-//    - complete the Scaffold set up: appBar, .....etc
-//    - style the screen and its children
-
-
-// Navigation and Routing:
-//    - make a new widget screen called category_meals_screen
-//    - make it a screen by wraping the content in Scaffold
-//    - make the category_item tappable using: GestureDetector or InkWell (GestureDetector with effects))
-//    - write a function for selectCategory and trigger it using onTap of the InkWell
-//    - use Navigator + MaterialPageRoute : in the selectCategory() function!
-//    - Congrats!!! for your first navigation and routing ever!!
 
 
 import 'package:flutter/material.dart';
