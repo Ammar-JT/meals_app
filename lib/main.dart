@@ -1,23 +1,8 @@
-// Lesson 5:  Added meal_detail_screen (with route and navigator) + onGenerateRoute + onUnknownRoute
+// Lesson 6: finishing meal detail page
 
-// Added meal_detail_screen (with route and navigator):
-//    - Added meal_detail_screen widget
-//    - added a static const routeName = '/meal-detail'; << inside the screen widget
-//    - added route for this screen here in the main
-//    - used Scaffold for meal_detail_screen widget to make it screen
-//    - put selectMeal() function inside meal_item, and used a Navigator inside it
-//    ..so when you tap on the image of the meal it will navigate to the meal_detail_screen <<< go and see it!
-//    ..also passed the id of the meal from category to meal item to meal_detail
-
-// onGenerateRoute:
-//    - the benifit of this function is to do a logic for any named (pushNamed) navigation that is not registered in routes
-//    .. this is typically does some logic depends on the setting or arguments
-//    .. and if it failed to navigated, it will keep it for the onKnownRoute
-
-// onUnknownRoute
-//    -same as onGenerateRoute, but it's the last hope for routing, 
-//    .. typically used like 404 in the web insteed of returning an exception
-
+//finishing meal detail page:
+//    - in this screen we will not divide it to multiple widget
+//    - instead, we will use builders
 
 import 'package:flutter/material.dart';
 import './screens/categories_screen.dart';
@@ -63,7 +48,7 @@ class MyApp extends StatelessWidget {
         return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
 
-      //same as onGenerateRoute, but it's the last hope for routing, 
+      //same as onGenerateRoute, but it's the last hope for routing,
       //.. typically used like 404 in the web insteed of returning an exception
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
@@ -71,22 +56,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class MyHomePage extends StatefulWidget {
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('DeliMeals'),
-//       ),
-//       body: Center(
-//         child: Text('Navigation Time!'),
-//       ),
-//     );
-//   }
-// }
