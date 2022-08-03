@@ -1,13 +1,23 @@
-// Lesson 8: Drawer + replacing pages (instead of pushing to the stack of pages)
+// Lesson 9: Popping pages & Passing data back + delete meal (temporarly from category_meal_screen when back to it using pop)
 
-//Drawer:
-//    - you can make a drawer very simply, under any Scaffold put Drawer: Scaffold(drawer:...)
-//    - we made a widget for the drawer, so it will be reusable in any screen
-//    - the drawer in this lesson is used in tabs_screen
-//    - no need to explain the logic, it's very simple, go and see it in main_drawer
-
-// replacing pages (instead of pushing to the stack of pages):
-//      - simply replace any pushNamed() with pushReplacementNamed()
+// Popping pages & Passing data back:
+//      - we will make a floating button in meal_detail_screen,
+//      .. this button will go back (pop the current page) but it will pass some data back
+//      - use this to do the previous line:  Navigator.of(context).pop();
+//
+//      - if you want to pass a data pass it in pop(data)
+//      ..the plain is to use the button to delete the meal from the category list temporarly
+//      - To recieved that data, go to the parent page, the one that has pushNamed()
+//      - and use pushNamed().then() <<<< yes, this then is like the sync functions for http requests in any language
+//      .. it will do the logic after you comeback again.
+//
+//      - In the parent of the paraet page >> category_meals_screen << meal_detail_screen < meal_item
+//      .. we did some magor changes:
+//          - make it stateful
+//          - used initState()
+//          - initState() is not useful cuz it run too early before we got the context, so we used didChangeDependencies()
+//          - Ah! fuck!! didChangeDependencies() is running in every changing, so it load the whole list of meals instead of the modified one!
+//          - I did some boolean logic to apply didChangeDependencies() only once.. using the variable loadedInitData
 
 import 'package:flutter/material.dart';
 import './screens/tabs_screen.dart';
