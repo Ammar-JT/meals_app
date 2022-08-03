@@ -1,29 +1,20 @@
-// Lesson 7: TabBar to Appbar + Bottom TabBar
+// Lesson 8: Drawer + replacing pages (instead of pushing to the stack of pages)
 
-// Adding TabBar to Appbar:
-//    - use DefaultTabController(Scaffold(AppBar(Tabar[tab1, tab2]))) <<<not the exact syntax but the exact order
-//    - DefaultTabController + AppBar & tabs + TabBarView = are connect by default behind the scene
-//    .. so when you click on a tab the tabBarView will respond, all that happend under the DefaultTabController
-//    - Add your screens in TabBarView
-//    - now make the default screen route here: TabsScreen instead of CategoriesScreen
-//    - Now you can delete the Scaffold in CategoriesScreen, cuz the real boss screen here is the TabsScreen ;)
+//Drawer:
+//    - you can make a drawer very simply, under any Scaffold put Drawer: Scaffold(drawer:...)
+//    - we made a widget for the drawer, so it will be reusable in any screen
+//    - the drawer in this lesson is used in tabs_screen
+//    - no need to explain the logic, it's very simple, go and see it in main_drawer
 
-// Bottom TabBar:
-//    - in tabs_screen stateful widget
-//    - in tabs_screen remove DefaultTabController() and use a scaffold directally
-//    - use Scaffold(,,BottomNavigationBar(items[BottomNavigationBarItem1,DefaultTabController2]))
-//
-//    - unlike the top AppBar, nothing automatic here, there is no DefaultTabController()!!!
-//    - the tapbar must have onTab, and the logic is manual!
-//    - you have to make a function to switch between screens, and you must you setState() on it!
-//    - you should use list of map to pass data to the BottomNavigationBar (screens widget + titles)
-//
-//    - all the logic will be found on tabs_screen.dart
+// replacing pages (instead of pushing to the stack of pages):
+//      - simply replace any pushNamed() with pushReplacementNamed()
+
 import 'package:flutter/material.dart';
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meal_detail_screen.dart';
+import './screens/filters_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,6 +46,7 @@ class MyApp extends StatelessWidget {
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(), // << a non-hardcoded way
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
       },
       //this will work for any named (pushNamed) navigation that is not registered in routes up here ^
       //.. this is typically does some logic depends on the setting or arguments
