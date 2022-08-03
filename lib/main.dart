@@ -1,29 +1,28 @@
-// Lesson 4: Meals model + .where() and .map() in list + meal item design
+// Lesson 5:  Added meal_detail_screen (with route and navigator) + onGenerateRoute + onUnknownRoute
 
-// Meals Model:
-//    - wrote meal.dart
-//    - meal.dart contained enum
-//    - dummy_data used meals model
+// Added meal_detail_screen (with route and navigator):
+//    - Added meal_detail_screen widget
+//    - added a static const routeName = '/meal-detail'; << inside the screen widget
+//    - added route for this screen here in the main
+//    - used Scaffold for meal_detail_screen widget to make it screen
+//    - put selectMeal() function inside meal_item, and used a Navigator inside it
+//    ..so when you tap on the image of the meal it will navigate to the meal_detail_screen <<< go and see it!
+//    ..also passed the id of the meal from category to meal item to meal_detail
 
-//.where() and .map() in list: they are not a flutter thing, it's a dart thing:
-//    - you can find it in category_meals_screen.dart
+// onGenerateRoute:
+//    - the benifit of this function is to do a logic for any named (pushNamed) navigation that is not registered in routes
+//    .. this is typically does some logic depends on the setting or arguments
+//    .. and if it failed to navigated, it will keep it for the onKnownRoute
 
-// meal item design: 
-//    - meal_item.dart
-//    - include a network image inside this meal item
-//    - include the meal item widget insed the category meals, and it works!
-//    - we also used stack and it includes an image and a text
-//    - i wrapped the text of this stack inside a positioned:
-//      .. which position the text above the image
-//    - we also used getter + enum
-//    - we used  mainAxisAlignment: MainAxisAlignment.spaceAround, <<< inside a row!
-
-
+// onUnknownRoute
+//    -same as onGenerateRoute, but it's the last hope for routing, 
+//    .. typically used like 404 in the web insteed of returning an exception
 
 
 import 'package:flutter/material.dart';
-import 'package:meal_app/screens/categories_screen.dart';
-import 'package:meal_app/screens/category_meals_screen.dart';
+import './screens/categories_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/meal_detail_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,9 +51,22 @@ class MyApp extends StatelessWidget {
         '/': (ctx) => CategoriesScreen(),
         // '/categories': (ctx) => CategoryMealsScreen(categoryId, categoryTitle) << we dont have id and title, so we will reomve the constructor in category_meals_screen and change the mechanism:
         // '/categories': (ctx) => CategoryMealsScreen() << a hardcoded way
-
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(), // << a non-hardcoded way
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+      },
+      //this will work for any named (pushNamed) navigation that is not registered in routes up here ^
+      //.. this is typically does some logic depends on the setting or arguments
+      //.. and if it failed to navigated, it will keep it for the onUnknownRoute
+      onGenerateRoute: (settings) {
+        print(settings.arguments);
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      },
+
+      //same as onGenerateRoute, but it's the last hope for routing, 
+      //.. typically used like 404 in the web insteed of returning an exception
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
     );
   }
