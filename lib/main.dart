@@ -1,10 +1,15 @@
-// Lesson 6: finishing meal detail page
+// Lesson 7: TabBar to Appbar
 
-//finishing meal detail page:
-//    - in this screen we will not divide it to multiple widget
-//    - instead, we will use builders
+// TabBar to Appbar:
+//    - use DefaultTabController(Scaffold(AppBar(Tabar[tab1, tab2]))) <<<not the exact syntax but the exact order
+//    - DefaultTabController + AppBar & tabs + TabBarView = are connect by default behind the scene
+//    .. so when you click on a tab the tabBarView will respond, all that happend under the DefaultTabController
+//    - Add your screens in TabBarView
+//    - now make the default screen route here: TabsScreen instead of CategoriesScreen
+//    - Now you can delete the Scaffold in CategoriesScreen, cuz the real boss screen here is the TabsScreen ;)
 
 import 'package:flutter/material.dart';
+import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meal_detail_screen.dart';
@@ -33,7 +38,7 @@ class MyApp extends StatelessWidget {
       // home: CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => CategoriesScreen(),
+        '/': (ctx) => TabsScreen(),
         // '/categories': (ctx) => CategoryMealsScreen(categoryId, categoryTitle) << we dont have id and title, so we will reomve the constructor in category_meals_screen and change the mechanism:
         // '/categories': (ctx) => CategoryMealsScreen() << a hardcoded way
         CategoryMealsScreen.routeName: (ctx) =>
