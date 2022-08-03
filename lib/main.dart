@@ -1,6 +1,6 @@
-// Lesson 7: TabBar to Appbar
+// Lesson 7: TabBar to Appbar + Bottom TabBar
 
-// TabBar to Appbar:
+// Adding TabBar to Appbar:
 //    - use DefaultTabController(Scaffold(AppBar(Tabar[tab1, tab2]))) <<<not the exact syntax but the exact order
 //    - DefaultTabController + AppBar & tabs + TabBarView = are connect by default behind the scene
 //    .. so when you click on a tab the tabBarView will respond, all that happend under the DefaultTabController
@@ -8,6 +8,17 @@
 //    - now make the default screen route here: TabsScreen instead of CategoriesScreen
 //    - Now you can delete the Scaffold in CategoriesScreen, cuz the real boss screen here is the TabsScreen ;)
 
+// Bottom TabBar:
+//    - in tabs_screen stateful widget
+//    - in tabs_screen remove DefaultTabController() and use a scaffold directally
+//    - use Scaffold(,,BottomNavigationBar(items[BottomNavigationBarItem1,DefaultTabController2]))
+//
+//    - unlike the top AppBar, nothing automatic here, there is no DefaultTabController()!!!
+//    - the tapbar must have onTab, and the logic is manual!
+//    - you have to make a function to switch between screens, and you must you setState() on it!
+//    - you should use list of map to pass data to the BottomNavigationBar (screens widget + titles)
+//
+//    - all the logic will be found on tabs_screen.dart
 import 'package:flutter/material.dart';
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
