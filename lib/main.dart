@@ -1,36 +1,86 @@
-// Lesson 9: Popping pages & Passing data back + delete meal (temporarly from category_meal_screen when back to it using pop)
+// Lesson 10: Adding Filter Switches + Adding Favorite Button
 
-// Popping pages & Passing data back:
-//      - we will make a floating button in meal_detail_screen,
-//      .. this button will go back (pop the current page) but it will pass some data back
-//      - use this to do the previous line:  Navigator.of(context).pop();
-//
-//      - if you want to pass a data pass it in pop(data)
-//      ..the plain is to use the button to delete the meal from the category list temporarly
-//      - To recieved that data, go to the parent page, the one that has pushNamed()
-//      - and use pushNamed().then() <<<< yes, this then is like the sync functions for http requests in any language
-//      .. it will do the logic after you comeback again.
-//
-//      - In the parent of the paraet page >> category_meals_screen << meal_detail_screen < meal_item
-//      .. we did some magor changes:
-//          - make it stateful
-//          - used initState()
-//          - initState() is not useful cuz it run too early before we got the context, so we used didChangeDependencies()
-//          - Ah! fuck!! didChangeDependencies() is running in every changing, so it load the whole list of meals instead of the modified one!
-//          - I did some boolean logic to apply didChangeDependencies() only once.. using the variable loadedInitData
+// Adding Filter Switches
+
+// Adding Favorite Button
 
 import 'package:flutter/material.dart';
+import './dummy_data.dart';
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/filters_screen.dart';
 
+import './models/meal.dart';
+
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favoriteMeals = [];
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        if (_filters['gluten'] && !meal.isGlutenFree) {
+          return false;
+        }
+
+        if (_filters['lactose'] && !meal.isLactoseFree) {
+          return false;
+        }
+
+        if (_filters['vegan'] && !meal.isVegan) {
+          return false;
+        }
+
+        if (_filters['vegetarian'] && !meal.isVegetarian) {
+          return false;
+        }
+
+        return true;
+      }).toList();
+    });
+  }
+
+  void _toggleFavorite(String mealId) {
+    //indexWhere gives you the index of the element if the return is true,
+    //.. if the list finished and you didn't get the index then the method will return -1:
+    final existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoriteMeals.add(
+          DUMMY_MEALS.firstWhere((meal) => meal.id == mealId),
+        );
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id) {
+    return _favoriteMeals.any((meal) => meal.id == id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,13 +100,14 @@ class MyApp extends StatelessWidget {
       // home: CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(_favoriteMeals),
         // '/categories': (ctx) => CategoryMealsScreen(categoryId, categoryTitle) << we dont have id and title, so we will reomve the constructor in category_meals_screen and change the mechanism:
         // '/categories': (ctx) => CategoryMealsScreen() << a hardcoded way
         CategoryMealsScreen.routeName: (ctx) =>
-            CategoryMealsScreen(), // << a non-hardcoded way
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(),
+            CategoryMealsScreen(_availableMeals), // << a non-hardcoded way
+        MealDetailScreen.routeName: (ctx) =>
+            MealDetailScreen(_toggleFavorite, _isMealFavorite),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),
       },
       //this will work for any named (pushNamed) navigation that is not registered in routes up here ^
       //.. this is typically does some logic depends on the setting or arguments
